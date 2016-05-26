@@ -1,0 +1,14 @@
+{
+  "name": "node-memory-usage",
+  "version": "0.1.0",
+  "description": "Testing Node memory usage patterns",
+  "author": "Brian <bmancini@gmail.com>",
+  "license": "MIT",
+  "engines" : {
+    "node" : ">=6.0"
+  },
+  "dependencies": {
+    "amqplib": "^0.4.1",
+    "request": "^2.72.0"
+  }
+}
