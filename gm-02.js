@@ -11,9 +11,15 @@ setInterval(run, 500);
 function run() {
   const path = 'fixtures/test.jpg';
   readFileAsync(path)
-  .then(buffer => resizeImage(buffer, 100))
+  .then(buffer => Promise.all([
+    resizeImage(buffer, 300),
+    resizeImage(buffer, 400),
+    resizeImage(buffer, 500),
+    resizeImage(buffer, 600),
+    resizeImage(buffer, 700),
+    resizeImage(buffer, 800),
+  ]))
   .then((output) => {
-    console.log(output.length);
     console.log(process.memoryUsage());
     if(global.gc)
       global.gc();
