@@ -2,29 +2,27 @@
  * Sized buffer, with offset insert
  */
 
-let request = require('request');
+let fs = require('fs');
 
-setInterval(run, 5000);
+setInterval(run, 1000);
 
 function run() {
-  fetchFile('https://s3.amazonaws.com/southsidecomics/items/STK/687/392/STK687392.jpg', (err, buffer) => {
-    console.log(buffer.length);
-    console.log(process.memoryUsage());
+  fetchFile((err, buffer) => {
+    console.log(err || process.memoryUsage());
   });
 }
 
-function fetchFile(url, cb) {
+function fetchFile(cb) {
   let buffer;
   let offset = 0;
-  let byte;
-  request
-    .get(url)
-    .on('response', (r) => {
-      buffer = new Buffer(parseInt(r.headers['content-length']));
-    })
+  let { size } = fs.lstatSync('fixtures/test.jpg')
+
+  require('fs')
+    .createReadStream('fixtures/test.jpg')
+    .on('open', () => buffer = new Buffer(size))
     .on('data',  d => {
-      for(byte of d) {
-        buffer.writeUInt8(byte, offset);
+      for(let i = 0; i < d.length; i += 1) {
+        buffer.writeUInt8(d[i], offset);
         offset += 1;
       }
     })
